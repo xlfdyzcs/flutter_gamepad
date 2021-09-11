@@ -3,18 +3,12 @@ package com.example.flutter_gamepad
 import android.app.UiModeManager
 import android.content.Context
 import android.content.res.Configuration
-import io.flutter.embedding.android.AndroidKeyProcessor
-import io.flutter.embedding.android.AndroidTouchProcessor
-import io.flutter.embedding.engine.renderer.FlutterRenderer
-import io.flutter.embedding.engine.systemchannels.KeyEventChannel
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import io.flutter.plugin.editing.TextInputPlugin
-import io.flutter.view.FlutterView
 
 /**
  * The flutter_gamepad plugin class that is registered with the framework.
