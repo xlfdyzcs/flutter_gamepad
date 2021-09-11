@@ -1,46 +1,30 @@
 package com.example.flutter_gamepad
 
-import android.app.UiModeManager
-import android.content.Context
-import android.content.res.Configuration
-import io.flutter.plugin.common.EventChannel
+import androidx.annotation.NonNull
+
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /**
  * The flutter_gamepad plugin class that is registered with the framework.
  */
-class FlutterGamepadPlugin : MethodCallHandler {
-    companion object {
-        var isTv: Boolean? = null
+class FlutterGamepadPlugin : FlutterPlugin, MethodCallHandler {
 
-        @JvmStatic
-        fun registerWith(registrar: Registrar) {
-            // Detect if we are running on a TV.
-            val context = registrar.context()
-            val manager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-            isTv = manager.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
+    private lateinit var channel : MethodChannel
 
-            // Set up Flutter platform channels.
-            val methodChannel = MethodChannel(registrar.messenger(), "com.rainway.flutter_gamepad/methods")
-            methodChannel.setMethodCallHandler(FlutterGamepadPlugin())
-            val eventChannel = EventChannel(registrar.messenger(), "com.rainway.flutter_gamepad/events")
-            eventChannel.setStreamHandler(GamepadStreamHandler)
-        }
+    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_gamepad")
+        channel.setMethodCallHandler(this)
     }
 
-    override fun onMethodCall(call: MethodCall, result: Result) {
-        if (call.method == "gamepads") {
-            result.success(allGamepadInfoDictionaries())
-        } else if (call.method == "enableDebugMode") {
-            GamepadStreamHandler.enableDebugMode(true)
-        } else if (call.method == "disableDebugMode") {
-            GamepadStreamHandler.enableDebugMode(false)
-        } else {
-            result.notImplemented()
-        }
+    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+        result.success("Not supported on Android")
+    }
+
+    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+        channel.setMethodCallHandler(null)
     }
 }
