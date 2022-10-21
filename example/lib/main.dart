@@ -18,13 +18,13 @@ class _MyAppState extends State<MyApp> {
   // ignored because they don't map to one of our expected button/stick
   // events.
   List<GamepadEvent> _debugEventLog = [];
-  StreamSubscription<GamepadEvent> _subscription;
-  List<GamepadInfo> _gamepads;
+  StreamSubscription<GamepadEvent>? _subscription;
+  List<GamepadInfo>? _gamepads;
 
   @override
   void initState() {
     super.initState();
-    _subscription = FlutterGamepad.eventStream.listen(onGamepadEvent);
+    _subscription = FlutterGamepad.eventStream?.listen(onGamepadEvent);
     // Unfortunately, can't enable debug mode until after creating the listener.
     if (Platform.isAndroid) {
       FlutterGamepad.enableDebugMode();
@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void dispose() {
-    _subscription.cancel();
+    _subscription?.cancel();
     super.dispose();
   }
 
@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
                     fontSize: 9.0,
                   ),
                 ),
-                RaisedButton(onPressed: _fetchGamepads, child: Text('Call gamepads()')),
+                ElevatedButton(onPressed: _fetchGamepads, child: Text('Call gamepads()')),
                 Text('gamepads = ${_gamepads?.map((pad) => pad.vendorName)}'),
               ],
             ),
